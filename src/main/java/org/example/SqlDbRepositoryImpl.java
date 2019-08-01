@@ -18,10 +18,10 @@ public class SqlDbRepositoryImpl implements SqlDBRepository {
     public Account findByName(String name) throws SQLException {
         try (Connection connection = connectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_QUERY)) {
-            statement.setString(0, name);
+            statement.setString(1, name);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                String lastName = rs.getString(0);
+                String lastName = rs.getString(1);
                 return new Account(name, lastName);
             }
             return null;
@@ -32,8 +32,8 @@ public class SqlDbRepositoryImpl implements SqlDBRepository {
     public void changeLastName(String name, String newLastName) throws SQLException {
         try (Connection connection = connectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
-            statement.setString(0, newLastName);
-            statement.setString(1, name);
+            statement.setString(1, newLastName);
+            statement.setString(2, name);
             int res = statement.executeUpdate();
         }
     }
